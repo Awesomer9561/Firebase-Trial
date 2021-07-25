@@ -1,0 +1,87 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="Firebase_Trial.ViewUploads"
+             Title="Uploaded  images">
+
+    <ContentPage.Resources>
+        <Style TargetType="Grid">
+            <Setter Property="VisualStateManager.VisualStateGroups">
+                <VisualStateGroupList>
+                    <VisualStateGroup x:Name="CommonStates">
+                        <VisualState x:Name="Normal">
+                            <VisualState.Setters>
+                                <Setter Property="BackgroundColor"
+                                        Value="Transparent" />
+                            </VisualState.Setters>
+                        </VisualState>
+                        <VisualState x:Name="Selected">
+                            <VisualState.Setters>
+                                <Setter Property="BackgroundColor"
+                                        Value="AliceBlue"/>
+                            </VisualState.Setters>
+                        </VisualState>
+                    </VisualStateGroup>
+                </VisualStateGroupList>
+            </Setter>
+        </Style>
+
+        <Style TargetType="Label">
+            <Setter Property="FontSize" Value="15"/>
+            <Setter Property="FontAttributes" Value="Bold"/>
+        </Style>
+    </ContentPage.Resources>
+
+    <ContentPage.Content>
+        <StackLayout>
+            <CollectionView x:Name="UploadsCollection" ItemsLayout="VerticalList" 
+                        SelectionMode="Single" SelectionChanged="UploadsCollection_SelectionChanged">
+                <CollectionView.EmptyView>
+                    <Grid RowDefinitions="*,*">
+                        <Label Text="Nothing to show!" HorizontalOptions="CenterAndExpand" VerticalOptions="End" FontSize="30" FontAttributes="None"/>
+                        <Label Text="Why don't you upload something" HorizontalOptions="CenterAndExpand" FontAttributes="None"
+                           Grid.Row="1" FontSize="20" VerticalOptions="Start"/>
+                    </Grid>
+                </CollectionView.EmptyView>
+
+
+                <CollectionView.ItemTemplate>
+                    <DataTemplate>
+                        <Grid>
+                            <Grid ColumnDefinitions="auto,*,auto" Margin="20,10">
+                                <!--<Frame Padding="0" HeightRequest="150" WidthRequest="100" Margin="10">
+                            <Image Source="{Binding image}" Aspect="AspectFit"/>
+                            </Frame>-->
+                                <Label FontAttributes="None">
+                                    <Label.FormattedText>
+                                        <FormattedString>
+                                            <Span Text="{Binding ID}"/>
+                                            <Span Text="."/>
+                                        </FormattedString>
+                                    </Label.FormattedText>
+                                </Label>
+                                <Label Text="{Binding imgName}" HorizontalOptions="Start" Grid.Column="1" LineBreakMode="TailTruncation"/>
+                                <Label Text="{Binding Timestamp}" Grid.Column="2" FontAttributes="None"/>
+                            </Grid>
+                        </Grid>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
+
+            <Frame Padding="0" HeightRequest="120">
+                <Grid RowDefinitions="*,auto">
+                    <Label Margin="20,5,20,0" VerticalOptions="Center" Grid.ColumnSpan="2">
+                        <Label.FormattedText>
+                            <FormattedString>
+                                <Span x:Name="fileIDLabel"/>
+                                <Span x:Name="fileNameLabel"/>
+                            </FormattedString>
+                        </Label.FormattedText>
+                    </Label>
+                    <Button Text="Download file" BackgroundColor="#27ae60" Grid.Row="1" Grid.Column="0" Clicked="downloadFile" TextColor="White"/>
+                    <Button Text="Delete file" BackgroundColor="#e74c3c" Grid.Row="1" Grid.Column="1" Clicked="deleteFile" TextColor="White"/>
+                </Grid>
+            </Frame>
+        </StackLayout>
+    </ContentPage.Content>
+</ContentPage>

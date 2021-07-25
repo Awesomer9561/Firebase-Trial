@@ -1,0 +1,36 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:local="clr-namespace:Firebase_Trial"  
+             x:Class="Firebase_Trial.MainPage"
+             NavigationPage.HasNavigationBar="False">
+
+    <ContentPage.Content>
+        <Grid RowDefinitions="auto,auto,*,auto,auto,auto,auto">
+            <Label Text="Upload your documents to cloud!" FontSize="Title"
+                VerticalOptions="Start" Margin="20,20,20,0"
+                HorizontalOptions="CenterAndExpand" Grid.ColumnSpan="2"/>
+            <Label Text="Select an image" HorizontalOptions="CenterAndExpand" Grid.Row="1" Grid.ColumnSpan="2" 
+                   FontSize="30" FontAttributes="Bold"/>
+            <Frame HeightRequest="300" WidthRequest="300" HorizontalOptions="Center" VerticalOptions="Center"
+                  Grid.Row="2" Grid.ColumnSpan="2" Padding="20">
+                <Grid RowDefinitions="*">
+                    <Label x:Name="selectanImgLabel" Text="Select an Image to preview" FontSize="17" 
+                           HorizontalOptions="Center" VerticalOptions="Center"/>
+                    <ActivityIndicator x:Name="uploadingIndicator" HeightRequest="80" WidthRequest="80"
+                                       VerticalOptions="CenterAndExpand" HorizontalOptions="CenterAndExpand" IsRunning="False"/>
+                    <Image Aspect="AspectFit" x:Name="imageViewer"/>
+                </Grid>
+                <Frame.GestureRecognizers>
+                    <TapGestureRecognizer Tapped="BtnPick_Clicked"/>
+                </Frame.GestureRecognizers>
+            </Frame>
+            <Label x:Name="ImgNameLabel" Margin="20,-70,20,0" Grid.Row="3" VerticalOptions="Start"
+                   BackgroundColor="AliceBlue" Grid.ColumnSpan="2" HorizontalOptions="Center" FontSize="17"/>
+            <Entry Placeholder="Enter name for file" x:Name="fileNameEntry" Grid.Row="4" Grid.ColumnSpan="2" Margin="20"/>
+            <Button Text="View uploaded files" BackgroundColor="#f39c12" Grid.Row="5" Grid.Column="0" Clicked="ViewFiles" TextColor="White"/>
+            <Button Text="Upload to cloud" BackgroundColor="#2980b9" Grid.Row="5" Grid.Column="1" Clicked="BtnUpload_Clicked" TextColor="White"/>
+        </Grid>
+    </ContentPage.Content>
+
+</ContentPage>
