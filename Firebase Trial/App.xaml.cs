@@ -24,6 +24,7 @@ namespace Firebase_Trial
             InitializeComponent();
 
             MainPage = new NavigationPage(new MainPage());
+            //MainPage = new NavigationPage(new ViewDownloadedImage());
             //MainPage = new NavigationPage(new ViewUploads());
         }
 

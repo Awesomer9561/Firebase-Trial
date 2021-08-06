@@ -1,9 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.IO;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.Net;
 
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
@@ -26,7 +25,7 @@ namespace Firebase_Trial
         protected override void OnAppearing()
         {
             base.OnAppearing();
-            
+
             var imagedb = App.databaseLayer.DisplayImage().Result;
             if (imagedb != null)
             {
@@ -49,11 +48,19 @@ namespace Firebase_Trial
             if (!string.IsNullOrEmpty(fileNameLabel.Text))
             {
                 string path = await firebaseStorageHelper.GetFile(fileNameLabel.Text);
-                if (path != null)
+
+
+                string[] fileDetails = DownloadImage(path);
+                string fileName = fileDetails[0], filePath = fileDetails[1];
+                if (fileDetails != null)
                 {
                     fileIDLabel.Text = "";
                     fileNameLabel.Text = "";
-                    await DisplayAlert("Success", path, "OK");
+
+                    imageFile.imageUrl = filePath;
+                    App.databaseLayer.SaveImage(imageFile);
+                    await DisplayAlert("Success", filePath, "OK");
+                    await App.Current.MainPage.Navigation.PushAsync(new ViewDownloadedImage(imageFile));
                 }
             }
             else
@@ -61,6 +68,27 @@ namespace Firebase_Trial
                 await DisplayAlert("", "Please select a file", "ok");
             }
         }
+        public string[] DownloadImage(string URL)
+        {
+            WebClient webClient = new WebClient();
+
+            string folderPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Personal), "Images", "temp");
+            string fileName = URL.ToString().Split('/').Last();
+            string filePath = Path.Combine(folderPath, fileName);
+
+            webClient.DownloadDataCompleted += (s, e) =>
+            {
+                Directory.CreateDirectory(folderPath);
+
+                File.WriteAllBytes(filePath, e.Result);
+            };
+            Uri uri = new Uri(URL);
+            webClient.DownloadDataAsync(uri);
+
+            string[] fileDetails = { fileNameLabel.Text, filePath };
+            return fileDetails;
+        }
+
 
         private async void deleteFile(object sender, EventArgs e)
         {

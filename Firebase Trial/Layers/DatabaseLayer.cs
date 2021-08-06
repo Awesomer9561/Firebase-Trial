@@ -32,7 +32,7 @@ namespace Firebase_Trial
             return SQLiteAsync.Table<CollectionModel>().ToListAsync();
         }
 
-        //Update/Save table
+        //Update/Save image
         public void SaveImage(CollectionModel images)
         {
             if (images.ID == 0)
@@ -41,11 +41,12 @@ namespace Firebase_Trial
                 SQLiteAsync.UpdateAsync(images);
         }
 
-        //Delete note
+        //Delete image
         public void DeleteImage(CollectionModel images)
         {
             SQLiteAsync.DeleteAsync(images);
         }
+        
     }
 
     //Constants class

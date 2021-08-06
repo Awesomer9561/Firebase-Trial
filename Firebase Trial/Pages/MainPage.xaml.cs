@@ -14,6 +14,7 @@ namespace Firebase_Trial
     public partial class MainPage : ContentPage
     {
         FirebaseStorageHelper firebaseStorageHelper = new FirebaseStorageHelper();
+        string fileName;
 
         MediaFile file;
         public MainPage()
@@ -24,10 +25,11 @@ namespace Firebase_Trial
         {
             if (file != null)
             {
+                selectanImgLabel.IsVisible = false;
                 imageViewer.IsVisible = false;
                 uploadingIndicator.IsRunning = true;
 
-                var fileName = CustomFileName(Path.GetFileName(file.Path));
+                fileName = CustomFileName(Path.GetFileName(file.Path));
                 ImgNameLabel.Text = fileName;
                 await firebaseStorageHelper.UploadFile(file.GetStream(), fileName);
 
@@ -47,8 +49,8 @@ namespace Firebase_Trial
         {
             CollectionModel imageFile = new CollectionModel()
             {
-                image = file.GetStream().ToString(),
-                imgName = Path.GetFileName(file.Path),
+                imageUrl = file.GetStream().ToString(),
+                imgName = fileName,
                 Timestamp = DateTime.Now.ToString("d MMM yyyy  h:mm tt")
             };
             App.databaseLayer.SaveImage(imageFile);
@@ -83,9 +85,7 @@ namespace Firebase_Trial
 
         private async void BtnPick_Clicked(object sender, EventArgs e)
         {
-            selectanImgLabel.IsVisible = false;
             await CheckPermissions();
-
         }
 
         private async Task<PermissionStatus> CheckPermissions()

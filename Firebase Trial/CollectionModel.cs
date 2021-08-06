@@ -9,7 +9,7 @@ namespace Firebase_Trial
     {
         [AutoIncrement,PrimaryKey] public int ID { get; set; }
         public string imgName { get; set; }
-        public string image { get; set; }
+        public string imageUrl { get; set; }
         public string Timestamp { get; set; }
     }
 }
